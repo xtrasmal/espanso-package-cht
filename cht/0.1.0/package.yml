@@ -3,21 +3,29 @@
 name: cht
 parent: default
 
-matches:
-  - trigger: ":cht"
-    replace: "{{output}}"
-    passive_only: true
-    vars:
-      - name: output
-        type: shell
-        params:
-          cmd: 'curl "https://cht.sh/$0?QT&style=bw"'
+global_vars:
+  - name: query
+    type: shell
+    params:
+      cmd: 'echo {{command}} | sed -r "s/ +/%20/g"'
+  - name: url
+    type: echo
+    params:
+      echo: 'https://cht.sh/{{query}}'
 
-  - trigger: ":vcht"
+matches:
+  - regex: ":cht/(?P<command>.*)/"
     replace: "{{output}}"
-    passive_only: true
     vars:
       - name: output
         type: shell
         params:
-          cmd: 'curl "https://cht.sh/$0?qT&style=bw"'
+          cmd: 'curl "{{url}}?QT&style=bw"'
+
+  - regex: ":vcht/(?P<command>.*)/"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: 'curl "{{url}}?qT&style=bw"'
