@@ -11,7 +11,7 @@ global_vars:
   - name: url
     type: echo
     params:
-      echo: 'https://cht.sh/{{query}}'
+      echo: 'http://localhost:8002/{{query}}'
 
 matches:
   - regex: ":cht/(?P<command>.*)/"
